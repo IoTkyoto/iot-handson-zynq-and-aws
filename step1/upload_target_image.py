@@ -20,7 +20,11 @@ import boto3
 import botocore
 from botocore.exceptions import ClientError
 
+# ステップ2で構築するプログラムのパス
+# EXECUTE_AUTHENTICATION_PATH = '../step2/execute_authentication_and_analysis_api.py'
+
 # ----- 定数 -----
+UNIQUE_ID = "taro_yamada" # ハンズオン実施者の名前や社員番号等に書き換える
 DATA_NOW = dt.now()
 TIMESTAMP = str(DATA_NOW.strftime('_%Y%m%d%H%M%S'))  # 日本時間
 
@@ -43,7 +47,7 @@ class Relation_s3:
         # ファイル名の拡張子前後で分ける
         current_file_name, extension = os.path.splitext(filename)
         # ファイル名の後にタイムスタンプを追記しその後に拡張子が来るようにする
-        relation_s3.filename = current_file_name + TIMESTAMP + extension
+        relation_s3.filename = UNIQUE_ID + '_' + current_file_name + TIMESTAMP + extension
 
     # S3に画像をあげる
     def upload(self):
@@ -82,6 +86,10 @@ if __name__ == '__main__':
 
     # S3に画像をアップロードする
     relation_s3.upload()
+    
+    # ステップ2で構築するプログラムをcallする
+    # subprocess.call(["python3", EXECUTE_AUTHENTICATION_ANALYSIS_PATH, relation_s3.filename, args[2], '60'])
+
 
     # メモリ解放
     del relation_s3
