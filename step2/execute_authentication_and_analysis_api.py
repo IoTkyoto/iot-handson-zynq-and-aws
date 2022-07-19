@@ -28,10 +28,10 @@ BASE_URL = (
 )
 
 # step4で作成するログ送信用プログラムのパス
-PUB_AUTH_LOG_PATH = '../step4/pub_auth_log_data.py'
+# PUB_AUTH_LOG_PATH = '../step4/pub_auth_log_data.py'
 
 # step4で作成するログ送信用プログラムのパス
-PUB_ANALYSIS_LOG_PATH = '../step4/pub_analysis_log_data.py'
+# PUB_ANALYSIS_LOG_PATH = '../step4/pub_analysis_log_data.py'
 
 
 class Api:
