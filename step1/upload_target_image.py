@@ -19,9 +19,14 @@ from datetime import datetime as dt
 import boto3
 import botocore
 from botocore.exceptions import ClientError
+from boto3.session import Session
+
+# AWS プロファイル情報
+PROFILE_NAME = 'shared_env_profile'
+session = Session(profile_name=PROFILE_NAME, region_name="ap-northeast-1")
 
 # ステップ2で構築するプログラムのパス
-# EXECUTE_AUTHENTICATION_PATH = '../step2/execute_authentication_and_analysis_api.py'
+# EXECUTE_AUTHENTICATION_ANALYSIS_PATH = '../step2/execute_authentication_and_analysis_api.py'
 
 # ----- 定数 -----
 UNIQUE_ID = "taro_yamada" # ハンズオン実施者の名前や社員番号等に書き換える
@@ -67,7 +72,7 @@ class Relation_s3:
     # S3リソース指定
     def create_resource(self):
         # リソース指定
-        relation_s3.s3 = boto3.resource('s3')
+        relation_s3.s3 = session.resource('s3')
         # S3のバケット名指定(args[2]: コマンドライン引数で第二引数として渡した名前)
         relation_s3.bucket = relation_s3.s3.Bucket(args[2])
 
@@ -88,7 +93,9 @@ if __name__ == '__main__':
     relation_s3.upload()
     
     # ステップ2で構築するプログラムをcallする
-    # subprocess.call(["python3", EXECUTE_AUTHENTICATION_ANALYSIS_PATH, relation_s3.filename, args[2], '60'])
+    # S3のバケット名指定(args[2]: コマンドライン引数で第二引数として渡した名前)
+    # 顔認証で使用するしきい値の指定(args[3]: コマンドライン引数で第三引数として渡したしきい値)
+    # subprocess.call(["python3", EXECUTE_AUTHENTICATION_ANALYSIS_PATH, relation_s3.filename, args[2], args[3]])
 
 
     # メモリ解放
