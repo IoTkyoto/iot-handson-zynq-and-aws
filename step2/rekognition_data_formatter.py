@@ -14,8 +14,8 @@ def format_auth_log_data(ARGS_DATA, ARGS_AUTH_PICTURE_NAME):
         auth_log_data = []
         auth_result = None
         ARGS_DATA = json.loads(ARGS_DATA)
-        if ARGS_DATA['FaceMatches'] != []:
-            for data in ARGS_DATA['FaceMatches']:
+        if ARGS_DATA['body_search_result']['FaceMatches'] != []:
+            for data in ARGS_DATA['body_search_result']['FaceMatches']:
                 auth_log_data.append({
                     "DeviceID": "id001",
                     "Datetime": ARGS_DATA['timestamp'],
@@ -45,7 +45,7 @@ def format_analysis_log_data(ARGS_DATA):
     try:
         rekognition_data = []
         ARGS_DATA = json.loads(ARGS_DATA)
-        for data in ARGS_DATA['analysis']:
+        for data in ARGS_DATA['body_analyze_result']['FaceDetails']:
             rekognition_data.append({
                 'Datetime': ARGS_DATA['timestamp'],
                 'AgeRange-Low': data['AgeRange']['Low'],
@@ -59,7 +59,7 @@ def format_analysis_log_data(ARGS_DATA):
                 'EyesOpen': data['EyesOpen']['Value'],
                 'MouthOpen': data['MouthOpen']['Value']
             })
-        return rekognition_data
+        return True, rekognition_data
     except Exception as error:
         print(error)
-        return []
+        return False, []

@@ -8,7 +8,7 @@ Rekognitionで顔の判別をするAPIにアクセスするコード
 import json
 import ssl  # 認証方法をTLSv1に指定
 
-# import rekognition_data_formatter
+import rekognition_data_formatter
 import subprocess
 import sys
 import urllib.request
@@ -28,10 +28,10 @@ BASE_URL = (
 )
 
 # step3で作成するログ送信用プログラムのパス
-# PUB_AUTH_LOG_PATH = '../step3/pub_auth_log_data.py'
+PUB_AUTH_LOG_PATH = '../step3/pub_auth_log_data.py'
 
 # step3で作成するログ送信用プログラムのパス
-# PUB_ANALYSIS_LOG_PATH = '../step3/pub_analysis_log_data.py'
+PUB_ANALYSIS_LOG_PATH = '../step3/pub_analysis_log_data.py'
 
 
 class Api:
@@ -84,9 +84,9 @@ class Api:
     #      for data in format_data:
     #           subprocess.call(["python3", PUB_AUTH_LOG_PATH, json.dumps(data)])
 
-    # def write_log(self, format_result, format_data):
-    #      with open('create_auth_log.log', 'w') as f:
-    #           f.write(str(format_result) + ',\n' + json.dumps(format_data))
+    def write_log(self, log_file_name, format_result, format_data):
+         with open(log_file_name, 'w') as f:
+              f.write(str(format_result) + ',\n' + json.dumps(format_data))
 
     # def call_pub_analysis_log_data(self, format_data):
     #      for data in format_data:
@@ -109,24 +109,21 @@ class Api:
 
 
                 # 2-5-4で使用するAPIレスポンスの加工処理
-                # response_json = json.loads(response)
-                # format_result_auth, format_data_auth = rekognition_data_formatter.format_auth_log_data(json.dumps(response_json['payloads']), self.file_name)
-                # format_data_analysis = rekognition_data_formatter.format_analysis_log_data(json.dumps(response_json['payloads']))
-
+                response_json = json.loads(response)
+                format_result_auth, format_data_auth = rekognition_data_formatter.format_auth_log_data(json.dumps(response_json['payloads']), self.file_name)
+                format_result_analysis, format_data_analysis = rekognition_data_formatter.format_analysis_log_data(json.dumps(response_json['payloads']))
 
                 # 2-5-5で使うログ出力
-                # if format_data_auth != None:
-                #    self.write_log(format_result_auth, format_data_auth)
-                # if format_data_analysis != None:
-                #    self.write_log(format_result_analysis, format_data_analysis)
-
+                if format_data_auth != None:
+                    self.write_log('create_auth_log.log', format_result_auth, format_data_auth)
+                if format_data_analysis != None:
+                    self.write_log('create_analysis_log.log', format_result_analysis, format_data_analysis)
+                    
                 # step3の関数を呼び出す処理
                 # if format_data_auth != []:
-                #    self.call_pub_auth_log_data(format_data_auth)
-
-                # step3の関数を呼び出す処理
+                #     self.call_pub_auth_log_data(format_data_auth)
                 # if format_data_analysis != []:
-                #      self.call_pub_analysis_log_data(format_result_analysis)
+                #      self.call_pub_analysis_log_data(format_data_analysis)
 
         except Exception as error:
             response = '[FAILED]{}'.format(error)
