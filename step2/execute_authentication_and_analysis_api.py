@@ -8,7 +8,7 @@ Rekognitionで顔の判別をするAPIにアクセスするコード
 import json
 import ssl  # 認証方法をTLSv1に指定
 
-import rekognition_data_formatter
+# import rekognition_data_formatter
 import subprocess
 import sys
 import urllib.request
@@ -16,22 +16,22 @@ import urllib.request
 # このファイルを実行時に受け取る引数
 ARGS = sys.argv
 # APIキーの指定
-API_KEY = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+API_KEY = 'xxxxxxxxxxxxxxxxxxx'
 # APIのステージ
-STAGE = 'prod'
+STAGE = 'xxxxxx'
 # APIのID
-API_ID = 'xxxxxxxxx'
+API_ID = 'xxxxxx'
 # APIのリソースパス
-RESOURCE = 'xxxxxxxx'
+RESOURCE = 'xxxxxx'
 BASE_URL = (
     'https://{api_id}.execute-api.ap-northeast-1.amazonaws.com/{stage}/{resource}'
 )
 
 # step4で作成するログ送信用プログラムのパス
-# PUB_AUTH_LOG_PATH = '../step4/pub_auth_log_data.py'
+PUB_AUTH_LOG_PATH = '../step4/pub_auth_log_data.py'
 
 # step4で作成するログ送信用プログラムのパス
-# PUB_ANALYSIS_LOG_PATH = '../step4/pub_analysis_log_data.py'
+PUB_ANALYSIS_LOG_PATH = '../step4/pub_analysis_log_data.py'
 
 
 class Api:
@@ -80,17 +80,17 @@ class Api:
         """
         return json.dumps(data)
 
-    # def call_pub_auth_log_data(self, format_data):
-    #      for data in format_data:
-    #           subprocess.call(["python3", PUB_AUTH_LOG_PATH, json.dumps(data)])
+    def call_pub_auth_log_data(self, format_data):
+        for data in format_data:
+            subprocess.call(["python3", PUB_AUTH_LOG_PATH, json.dumps(data)])
 
     def write_log(self, log_file_name, format_result, format_data):
-         with open(log_file_name, 'w') as f:
-              f.write(str(format_result) + ',\n' + json.dumps(format_data))
+        with open(log_file_name, 'w') as f:
+            f.write(str(format_result) + ',\n' + json.dumps(format_data))
 
-    # def call_pub_analysis_log_data(self, format_data):
-    #      for data in format_data:
-    #           subprocess.call(["python3", PUB_ANALYSIS_LOG_PATH, json.dumps(data)])
+    def call_pub_analysis_log_data(self, format_data):
+        for data in format_data:
+            subprocess.call(["python3", PUB_ANALYSIS_LOG_PATH, json.dumps(data)])
 
     def post_request(self):
         """
@@ -108,22 +108,22 @@ class Api:
                 response = response_data.read().decode()
 
 
-                # 2-5-4で使用するAPIレスポンスの加工処理
-                response_json = json.loads(response)
-                format_result_auth, format_data_auth = rekognition_data_formatter.format_auth_log_data(json.dumps(response_json['payloads']), self.file_name)
-                format_result_analysis, format_data_analysis = rekognition_data_formatter.format_analysis_log_data(json.dumps(response_json['payloads']))
+                # 2-2-4で使用するAPIレスポンスの加工処理
+                # response_json = json.loads(response)
+                # format_result_auth, format_data_auth = rekognition_data_formatter.format_auth_log_data(json.dumps(response_json['payloads']), self.file_name)
+                # format_result_analysis, format_data_analysis = rekognition_data_formatter.format_analysis_log_data(json.dumps(response_json['payloads']))
 
-                # 2-5-5で使うログ出力
-                if format_data_auth != None:
-                    self.write_log('create_auth_log.log', format_result_auth, format_data_auth)
-                if format_data_analysis != None:
-                    self.write_log('create_analysis_log.log', format_result_analysis, format_data_analysis)
+                # 2-2-5で使うログ出力
+                # if format_data_auth != None:
+                #     self.write_log('create_auth_log.log', format_result_auth, format_data_auth)
+                # if format_data_analysis != None:
+                #     self.write_log('create_analysis_log.log', format_result_analysis, format_data_analysis)
                     
                 # step4の関数を呼び出す処理
                 # if format_data_auth != []:
                 #     self.call_pub_auth_log_data(format_data_auth)
                 # if format_data_analysis != []:
-                #      self.call_pub_analysis_log_data(format_data_analysis)
+                #     self.call_pub_analysis_log_data(format_data_analysis)
 
         except Exception as error:
             response = '[FAILED]{}'.format(error)
