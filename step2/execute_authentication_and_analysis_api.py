@@ -27,11 +27,11 @@ BASE_URL = (
     'https://{api_id}.execute-api.ap-northeast-1.amazonaws.com/{stage}/{resource}'
 )
 
-# step3で作成するログ送信用プログラムのパス
-PUB_AUTH_LOG_PATH = '../step3/pub_auth_log_data.py'
+# step4で作成するログ送信用プログラムのパス
+PUB_AUTH_LOG_PATH = '../step4/pub_auth_log_data.py'
 
-# step3で作成するログ送信用プログラムのパス
-PUB_ANALYSIS_LOG_PATH = '../step3/pub_analysis_log_data.py'
+# step4で作成するログ送信用プログラムのパス
+PUB_ANALYSIS_LOG_PATH = '../step4/pub_analysis_log_data.py'
 
 
 class Api:
@@ -119,7 +119,7 @@ class Api:
                 if format_data_analysis != None:
                     self.write_log('create_analysis_log.log', format_result_analysis, format_data_analysis)
                     
-                # step3の関数を呼び出す処理
+                # step4の関数を呼び出す処理
                 # if format_data_auth != []:
                 #     self.call_pub_auth_log_data(format_data_auth)
                 # if format_data_analysis != []:
