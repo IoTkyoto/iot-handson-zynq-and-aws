@@ -16,13 +16,13 @@ import urllib.request
 # このファイルを実行時に受け取る引数
 ARGS = sys.argv
 # APIキーの指定
-API_KEY = '76187vmf1Z3wt1l7j1ytK6xFXGzeCOkA5cgHssGx'
+API_KEY = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 # APIのステージ
 STAGE = 'prod'
 # APIのID
-API_ID = '31emy2ltlc'
+API_ID = 'xxxxxxxxx'
 # APIのリソースパス
-RESOURCE = 'analyze'
+RESOURCE = 'xxxxxxxx'
 BASE_URL = (
     'https://{api_id}.execute-api.ap-northeast-1.amazonaws.com/{stage}/{resource}'
 )
