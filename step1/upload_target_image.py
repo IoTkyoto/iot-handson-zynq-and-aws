@@ -72,7 +72,7 @@ class Relation_s3:
     # S3リソース指定
     def create_resource(self):
         # リソース指定
-        relation_s3.s3 = session.resource('s3')
+        relation_s3.s3 = session.resource('s3') # sessionを使用しない場合、boto3.resource('s3')に書き換える
         # S3のバケット名指定(args[2]: コマンドライン引数で第二引数として渡した名前)
         relation_s3.bucket = relation_s3.s3.Bucket(args[2])
 
